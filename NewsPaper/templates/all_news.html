@@ -1,0 +1,36 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_tags %}
+{% load custom_filters %}
+
+{% block title %}
+All news
+{% endblock title %}
+
+{% block content %}
+
+    <h1>Все новости</h1>
+    <h3>В данный момент на портале имеется {{ All_News|length }} поста.</h3>
+
+    <hr>
+    {% if All_News %}
+        <table>
+            <tr>
+                <td>Заголовок:</td>
+                <td>Дата публикации:</td>
+                <td>Превью:</td>
+
+            </tr>
+            {% for news in All_News %}
+            <tr>
+                <td ><a href="{{ news.id }}">{{ news.title|censor }} </a></td> <!-- Здесь целевое использование фильтра-->
+                <td>{{ news.date_creation|censor|date:"d F Y H:i" }}</td> <!-- Проверка фильтра, если применяется не к тексту-->
+                <td>{{ news.text|censor|truncatewords:10 }}</td> <!-- Здесь тоже целевое использование фильтра-->
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Новостей пока что нет. :(</h2>
+    {% endif %}
+
+{% endblock content %}
