@@ -1,15 +1,23 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models import Sum
+from django.core.validators import MinValueValidator
+from django.urls import reverse
 
 class Category(models.Model):
     name = models.CharField(max_length=64, unique=True)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Author(models.Model):
 
     authorUser = models.OneToOneField(User, on_delete=models.CASCADE)
     ratingAuthor = models.SmallIntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.authorUser}'
 
 
     def update_raiting(self):
@@ -43,6 +51,8 @@ class Post(models.Model):
     text = models.TextField()
     rating = models.SmallIntegerField(default=0)
 
+    def get_absolute_url(self):
+        return reverse('post_view', args=[str(self.id)])
 
     def like(self):
         self.rating += 1
@@ -55,12 +65,15 @@ class Post(models.Model):
     def preview(self):
         return self.text[0:128] + '...'
 
-    def __str__(self):
-        return f'{self.title}: {self.text[:15]}...; Rating: {self.rating}.'
+
+
+    # def __str__(self):
+    #     return f'{self.title}: {self.text[:15]}...; Rating: {self.rating}.'
 
 class PostCategory(models.Model):
     postThrough = models.ForeignKey(Post, on_delete=models.CASCADE)
     categoryThrough = models.ForeignKey(Category, on_delete=models.CASCADE)
+
 
 
 class Comment(models.Model):

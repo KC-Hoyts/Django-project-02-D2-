@@ -33,11 +33,32 @@
                                 <span class="sr-only">(current)</span>
                             </a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="/news/">Все посты</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/news/news/create/">Добавить новость</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/news/article/create/">Добавить статью</a>
+                        </li>
+
+
+
+                    </ul>
+
+                </div>
+                <div class="collapse navbar-collapse" style="text-align: right; margin-right: -400px; ">
+                    <ul class="navbar-nav ml-auto" style="position: right">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/news/search/">Поиск</a>
+                        </li>
                     </ul>
                 </div>
+
 
             </div>
             <div>
@@ -57,7 +78,11 @@
             </div>
         </div>
 
+        <div style="background-color: black; text-align: center;">
+            {% block page_info %}
 
+            {% endblock page_info %}
+        </div>
     </body>
 
 </html>

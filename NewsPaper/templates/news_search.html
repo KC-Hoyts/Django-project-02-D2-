@@ -1,19 +1,21 @@
 {% extends 'flatpages/default.html' %}
-
-{% load custom_tags %}
 {% load custom_filters %}
-
+{% load custom_tags %}
 {% block title %}
-All news
+Поиск новостей
 {% endblock title %}
 
 {% block content %}
+<h1> Поиск по публикациям </h1>
 
-    <h1>Все публикации</h1>
-    <h5>Отображено {{ All_News|length }} постов.</h5>
+<form action="" method="get">
+        <!-- Переменная, которую мы передали через контекст, может сгенерировать нам форму с полями-->
+        <inpiut class="form-control"> {{ filterset.form.as_p }} </inpiut>
+        <!-- Добавим кнопку отправки данных формы -->
+        <input type="submit" value="начать поиск" class="form-control"/>
 
-    <hr>
-    {% if All_News %}
+</form>
+{% if News_search %}
         <table style="font-size: 13px">
             <tr>
                 <td>Тип публикации:</td>
@@ -22,14 +24,13 @@ All news
                 <td>Категория:</td>
                 <td>Превью:</td>
                 <td>Автор:</td>
-                <td>Рейтинг:</td>
+
 
             </tr>
-            {% for news in All_News %}
-
+            {% for news in News_search %}
             <tr>
                 <td>|{{ news.categoryType }}|</td>
-                <td ><a href="{{ news.id }}">|{{ news.title|censor }} |</a></td> <!-- Здесь целевое использование фильтра-->
+                <td ><a href="../{{news.id}}">|{{ news.title|censor }} |</a></td> <!-- Здесь целевое использование фильтра-->
                 <td>|{{ news.date_creation|date:"d F Y H:i" }}|</td> <!-- Проверка фильтра, если применяется не к тексту-->
                 <td>{% for cat in news.post_category.all %}
                         -{{ cat.name }}-
@@ -37,15 +38,14 @@ All news
                     </td>
                 <td>|{{ news.text|censor|truncatechars:20 }}|</td> <!-- Здесь тоже целевое использование фильтра-->
                 <td>|{{ news.author }}|</td>
-                <td>|{{ news.rating }}|</td>
-            </tr>
 
+            </tr>
             {% endfor %}
         </table>
     {% else %}
-        <h2>Новостей пока что нет. :(</h2>
+        <h2>По Вашему запросу ничего не найдено :(</h2>
     {% endif %}
-    <hr>
+
     <!-- Добавляем пагинацию на страницу #}
    {# Информация о предыдущих страницах #} -->
 
@@ -73,5 +73,4 @@ All news
 
 {% block page_info %}
 <h6 style="color: grey">Всего страниц: {{page_obj.paginator.num_pages }} </h6>
-
 {% endblock page_info %}
